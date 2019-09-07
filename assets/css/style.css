@@ -1,0 +1,15 @@
+#header, .title {
+    color: white;
+}
+
+#header {
+    background: darkolivegreen;
+}
+
+.title {
+    background: rgb(125, 48, 226) !important;
+}
+
+.table, form {
+    border: 2px solid rgb(125, 48, 226);
+}

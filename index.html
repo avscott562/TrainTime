@@ -9,12 +9,88 @@
     <title>Train Schedule</title>
 </head>
 <body>
-    <header>
-        <h1>Train Time</h1>
-    </header>
 
-    <div>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <header id="header" class="jumbotron jumbotron-fluid text-center mb-3">
+                    <h1>Anytime is Train Time</h1>
+                    <p>Choo Choo.  Chee Chee.</p>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <div id="table-title" class="py-1 px-2 title">Current Train Schedule</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Train Name</th>
+                            <th scope="col">Destination</th>
+                            <th scope="col">Frequency (min)</th>
+                            <th scope="col">Next Arrival</th>
+                            <th scope="col">Minutes Away</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-hover">
+                        <tr>
+                            <td>Mark</td>
+                            <td>Oakland</td>
+                            <td>48</td>
+                            <td>12:54</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <td>Mark</td>
+                            <td>Oakland</td>
+                            <td>48</td>
+                            <td>12:54</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <td>Mark</td>
+                            <td>Oakland</td>
+                            <td>48</td>
+                            <td>12:54</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <td>Mark</td>
+                            <td>Oakland</td>
+                            <td>48</td>
+                            <td>12:54</td>
+                            <td>32</td>
+                        </tr>
+                        <tr>
+                            <td>Mark</td>
+                            <td>Oakland</td>
+                            <td>48</td>
+                            <td>12:54</td>
+                            <td>32</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div id="form-title" class="py-1 px-2 title">Add Train</div>
+                <form>
+                    <div class="form-group pl-2 pr-3">
+                        <label for="train-name" class="mt-2">Train Name</label>
+                        <input type="text" class="form-control" id="train-name" placeholder="Enter Train Name">
+                        <label for="destination" class="mt-2">Destination</label>
+                        <input type="text" class="form-control" id="destination" placeholder="Enter the Destination">
+                        <label for="time" class="mt-2">First Train Time (HH:mm - military time)</label>
+                        <input type="time" class="form-control" id="time" placeholder="13:00">
+                        <label for="frequency" class="mt-2">Frequency (min))</label>
+                        <input type="number" class="form-control" id="frequency" placeholder="##">
+                        <button type="submit" class="btn btn-success mt-4">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
@@ -23,7 +99,7 @@
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/en-ca.js" integrity="sha256-GX6pJwa8O8f+2g59UUqo5UJrmGLcxBoBv5VYFTofTkc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <!-- Javscript sheet -->
     <script src="assets/javascript/train.js"></script>
 </body>
