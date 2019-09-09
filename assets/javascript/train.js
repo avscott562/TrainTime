@@ -29,10 +29,14 @@ var firebaseConfig = {
     // var newTime = $('<td>');
     var time = $('#time').val().trim()
     // newTime.text(time);
-    // console.log(time);
-    // var convertedTime = moment(date, "yyyy-mm-dd");
+    console.log(time);
+    var convertedTime = moment(time, "HH:mm").format("hh:mmA");
+    console.log(convertedTime);
     var newFreq = $('<td>');
-    newFreq.text($('#frequency').val().trim());
+    var frequency = $('#frequency').val().trim()
+    // var next = convertedTime + frequency;
+    // console.log(next);
+    newFreq.text(frequency);
     var newArrive = $('<td>');
     newArrive.text('30');
     var newMinutes = $('<td>');
