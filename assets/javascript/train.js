@@ -27,13 +27,20 @@ var firebaseConfig = {
     newDest.text($('#destination').val().trim());
     //get submitted train time and add to row
     // var newTime = $('<td>');
-    var time = $('#time').val().trim()
+    var time = $('#time').val().trim();
     // newTime.text(time);
-    console.log(time);
-    var convertedTime = moment(time, "HH:mm").format("hh:mmA");
-    console.log(convertedTime);
+    console.log("time entry " + time);
+    var convertedTime = moment(time, "HH:mm").subtract(1, "years");
+    console.log("converted time " + convertedTime);
+    var currentTime = moment();
+    console.log("Current Time " + moment(currentTime).format("hh:mmA"));
     var newFreq = $('<td>');
-    var frequency = $('#frequency').val().trim()
+    var frequency = parseInt($('#frequency').val().trim());
+    console.log("frequency " + frequency);
+    var diffTime = moment().diff(moment(convertedTime), "minutes");
+    console.log("Difference " + diffTime);
+    var timeBalance = diffTime % frequency;
+    console.log("balance " + timeBalance);
     // var next = convertedTime + frequency;
     // console.log(next);
     newFreq.text(frequency);
