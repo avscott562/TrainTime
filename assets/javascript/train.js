@@ -14,6 +14,12 @@ var firebaseConfig = {
   // Create a variable to reference the database
   var database = firebase.database();
 
+  var trainName = "";
+  var trainDestinaton = "";
+  var trainFrequency = 0;
+  var nextTrainArrival = "";
+  var minutesLeft = 0;
+
   $('#submit').on("click", function(event) {
     // prevent form from submitting
     event.preventDefault();
@@ -21,14 +27,14 @@ var firebaseConfig = {
     var newRow = $('<tr>');
     //get submitted train name and add to row
     var newTrain = $('<td>');
-    newTrain.text($('#train-name').val().trim());
+    trainName = $('#train-name').val().trim();
+    newTrain.text(trainName);
     //get submitted destination and add to row
     var newDest = $('<td>');
-    newDest.text($('#destination').val().trim());
+    trainDestinaton = $('#destination').val().trim();
+    newDest.text(trainDestinaton);
     //get first train time
     var time = $('#time').val().trim();
-    // var newTime = $('<td>');
-    // newTime.text(time);
     console.log("time entry " + time);
     //convert first train time to moment and subtact a year to ensure it comes first
     var convertedTime = moment(time, "HH:mm").subtract(1, "years");
@@ -38,7 +44,8 @@ var firebaseConfig = {
     console.log("Current Time " + moment(currentTime).format("hh:mmA"));
     //get submitted frequency and add to row
     var newFreq = $('<td>');
-    var frequency = parseInt($('#frequency').val().trim());
+    trainFrequency = $('#frequency').val().trim();
+    var frequency = parseInt(trainFrequency);
     newFreq.text(frequency);
     console.log("frequency " + frequency);
     //calculate the difference between the current time and the first train time
@@ -49,15 +56,25 @@ var firebaseConfig = {
     console.log("balance " + timeBalance);
     //calculate how many minutes until next train and display in row
     var minAway = frequency - timeBalance;
+    minutesLeft = minAway;
     console.log("away " + minAway);
     var newMinutes = $('<td>');
     newMinutes.text(minAway);
     //calculate time of next train
     var newArrive = $('<td>');
     var arrivTime = moment().add(minAway, "minutes");
-    newArrive.text(moment(arrivTime).format("hh:mm A"));
+    nextTrainArrival = moment(arrivTime).format("hh:mm A");
+    newArrive.text(nextTrainArrival);
     //add all data to the new row
     newRow.append(newTrain, newDest, newFreq, newArrive, newMinutes);
     //add new row to table
     $('#schedule').append(newRow);
+
+    firebase.database().ref().push({
+      name: trainName,
+      destination: trainDestinaton,
+      frequency: trainFrequency,
+      arrival: nextTrainArrival,
+      away: minutesLeft
+    })
 });
