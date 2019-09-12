@@ -71,10 +71,21 @@ var firebaseConfig = {
 
 firebase.database().ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
   //create a new row for the table
-    // var newRow = $('<tr>');
-    // newRow.attr("id", trainId);
-    // trainId++;
-  $('#schedule').append($('<tr>').append("<td>" + snapshot.val().name + "</td>", "<td>" + snapshot.val().destination + "</td>", "<td>" + snapshot.val().frequency + "</td>", "<td>" + nextTrain(minAway(calcDiff(changeTime(snapshot.val().first)), snapshot.val().frequency)) + "</td>", "<td>" + minAway(calcDiff(changeTime(snapshot.val().first)), snapshot.val().frequency) + "</td>"));
+  var newRow = $('<tr>');
+  newRow.attr("id", trainId);
+  trainId++;
+  var newName = $("<td>" + snapshot.val().name + "</td>");
+  var newDest = $("<td>" + snapshot.val().destination + "</td>");
+  var freq = snapshot.val().frequency;
+  var newFreq = $("<td>" + freq + "</td>");
+  var tCalc = minAway(calcDiff(changeTime(snapshot.val().first)), freq);
+  var trainTime = $("<td>" + nextTrain(tCalc) + "</td>");
+  var remainMin = ("<td>" + tCalc + "</td>");
+
+  newRow.append(newName, newDest, newFreq, trainTime, remainMin);
+  $('#schedule').append(newRow);
+
+  // $('#schedule').append($('<tr>').append("<td>" + snapshot.val().name + "</td>", "<td>" + snapshot.val().destination + "</td>", "<td>" + snapshot.val().frequency + "</td>", "<td>" + nextTrain(minAway(calcDiff(changeTime(snapshot.val().first)), snapshot.val().frequency)) + "</td>", "<td>" + minAway(calcDiff(changeTime(snapshot.val().first)), snapshot.val().frequency) + "</td>"));
 });
 
 function minAway(d, f) {
