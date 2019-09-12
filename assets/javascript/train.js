@@ -75,6 +75,11 @@ var firebaseConfig = {
       destination: trainDestinaton,
       frequency: trainFrequency,
       arrival: nextTrainArrival,
-      away: minutesLeft
+      away: minutesLeft,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
+});
+
+firebase.database().ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
+  $('#schedule').append($('<tr>').append("<td>" + snapshot.val().name + "</td>", "<td>" + snapshot.val().destination + "</td>", "<td>" + snapshot.val().frequency + "</td>", "<td>" + snapshot.val().arrival + "</td>", "<td>" + snapshot.val().away + "</td>"));
 });
