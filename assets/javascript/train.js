@@ -72,15 +72,17 @@ var firebaseConfig = {
 firebase.database().ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
   //create a new row for the table
   var newRow = $('<tr>');
+  //add id to each row
   newRow.attr("id", trainId);
   trainId++;
-  var newName = $("<td>" + snapshot.val().name + "</td>");
-  var newDest = $("<td>" + snapshot.val().destination + "</td>");
+  //create data field for each column in the new row
+  var newName = $("<td>" + snapshot.val().name + "</td>").addClass("name");
+  var newDest = $("<td>" + snapshot.val().destination + "</td>").addClass("destination");
   var freq = snapshot.val().frequency;
-  var newFreq = $("<td>" + freq + "</td>");
+  var newFreq = $("<td>" + freq + "</td>").addClass("frequency");
   var tCalc = minAway(calcDiff(changeTime(snapshot.val().first)), freq);
-  var trainTime = $("<td>" + nextTrain(tCalc) + "</td>");
-  var remainMin = ("<td>" + tCalc + "</td>");
+  var trainTime = $("<td>" + nextTrain(tCalc) + "</td>").addClass("time");
+  var remainMin = $("<td>" + tCalc + "</td>").addClass("minutes");
 
   newRow.append(newName, newDest, newFreq, trainTime, remainMin);
   $('#schedule').append(newRow);
@@ -114,3 +116,11 @@ function nextTrain(m) {
   return moment(arrivTime).format("hh:mm A");
 }
 
+//update time every minute
+// setInterval(function() {
+//   var rows = document.getElementsByTagName('tr');
+//   for (i=0; i<rows.length-1; i++) {
+//     console.log($('#'+i+ '> td:last-child'));
+//     $('#'+i+' > td:last-child').text(3);
+//   }
+// }, 6000);
