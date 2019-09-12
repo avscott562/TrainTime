@@ -14,9 +14,7 @@ var firebaseConfig = {
   // Create a variable to reference the database
   var database = firebase.database();
 
-  // var trains = [
-  //   {name: }
-  // ];
+  //declare variables
   var trainName = ""; 
   var trainDestinaton = "";
   var trainFrequency = 0;
@@ -25,74 +23,57 @@ var firebaseConfig = {
   var trainId = 0;
   var time = "";
 
+  //add on click listener to submit button
   $('#submit').on("click", function(event) {
     // prevent form from submitting
     event.preventDefault();
-    //create a new row for the table
-    // var newRow = $('<tr>');
-    // newRow.attr("id", trainId);
-    // trainId++;
-    //get submitted train name and add to row
-    // var newTrain = $('<td>');
+    
+    //get submitted train name
     trainName = $('#train-name').val().trim();
-    // newTrain.text(trainName);
-    //get submitted destination and add to row
-    // var newDest = $('<td>');
-    trainDestinaton = $('#destination').val().trim();
-    // newDest.text(trainDestinaton);
-    //get first train time
-    time = $('#time').val().trim();
-    console.log("time entry " + time);
 
-    var convertedTime = changeTime(time);
+    //get submitted destination and add to row
+    trainDestinaton = $('#destination').val().trim();
+
+    //get submitted first train time
+    time = $('#time').val().trim();
+    // console.log("time entry " + time);
+    
     //convert first train time to moment and subtact a year to ensure it comes first
-    // var convertedTime = moment(time, "HH:mm").subtract(1, "years");
-    // console.log("converted time " + convertedTime);
-    //get current time
-    // var currentTime = moment();
-    // console.log("Current Time " + moment(currentTime).format("hh:mmA"));
-    //get submitted frequency and add to row
-    // var newFreq = $('<td>');
+    var convertedTime = changeTime(time);
+   
+    //get submitted frequency
     trainFrequency = $('#frequency').val().trim();
+    //convert frequency string to an interger
     var frequency = convertFreq(trainFrequency);
-    // newFreq.text(frequency);
-    console.log("frequency " + frequency);
+    // console.log("frequency " + frequency);
+
     //calculate the difference between the current time and the first train time
     var diffTime = calcDiff(convertedTime);
-    console.log("Difference " + diffTime);
-    // //calculate the remainder of time
-    // var timeBalance = diffTime % frequency;
-    // console.log("balance " + timeBalance);
-    // var timeBalance = calc(diffTime, frequency);
-    //calculate how many minutes until next train and display in row
-    // var minAway = frequency - timeBalance;
+    // console.log("Difference " + diffTime);
+    
+    //calculate how many minutes until next train
     minutesLeft = minAway(diffTime, frequency);
-    console.log("away " + minutesLeft);
-    var newMinutes = $('<td>');
-    // newMinutes.text(minAway);
-    //calculate time of next train
-    // var newArrive = $('<td>');
-    // var arrivTime = moment().add(minutesLeft, "minutes");
-    nextTrainArrival = nextTrain(minutesLeft);
-    console.log("next train " + nextTrainArrival);
-    // newArrive.text(nextTrainArrival);
-    //add all data to the new row
-    // newRow.append(newTrain, newDest, newFreq, newArrive, newMinutes);
-    //add new row to table
-    // $('#schedule').append(newRow);
+    // console.log("away " + minutesLeft);
 
+    //calculate time of next train
+    nextTrainArrival = nextTrain(minutesLeft);
+    // console.log("next train " + nextTrainArrival);
+
+    //add variables to Firebase database
     firebase.database().ref().push({
       name: trainName,
       first: time,
       destination: trainDestinaton,
       frequency: trainFrequency,
-      // arrival: nextTrainArrival,
-      // away: minutesLeft,
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
 });
 
 firebase.database().ref().orderByChild("dateAdded").on("child_added", function(snapshot) {
+  //create a new row for the table
+    // var newRow = $('<tr>');
+    // newRow.attr("id", trainId);
+    // trainId++;
   $('#schedule').append($('<tr>').append("<td>" + snapshot.val().name + "</td>", "<td>" + snapshot.val().destination + "</td>", "<td>" + snapshot.val().frequency + "</td>", "<td>" + nextTrain(minAway(calcDiff(changeTime(snapshot.val().first)), snapshot.val().frequency)) + "</td>", "<td>" + minAway(calcDiff(changeTime(snapshot.val().first)), snapshot.val().frequency) + "</td>"));
 });
 
@@ -111,8 +92,9 @@ function convertFreq(f) {
 }
 
 function calcDiff(t) {
+  //get current time
   var currentTime = moment();
-  console.log("Current Time " + moment(currentTime).format("hh:mmA"));
+  // console.log("Current Time " + moment(currentTime).format("hh:mmA"));
   return moment().diff(moment(t), "minutes");
 }
 
